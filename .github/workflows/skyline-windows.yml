@@ -3,6 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: [master]
+    paths-ignore: ["**.md"]
 permissions:
   contents: read
 jobs:
@@ -29,7 +30,26 @@ jobs:
           Copy-Item bin/LICENSE* package/skyline-rush/bin/
           Copy-Item config,data,doc -Destination package/skyline-rush/ -Recurse
           Get-ChildItem package/skyline-rush/data -Recurse -Force -Filter .git | Remove-Item -Force
-          Copy-Item skyline-rush.bat,skyline-server.bat,SKYLINE-START-HERE.md,SKYLINE-LICENSE.md package/skyline-rush/
+          Copy-Item skyline-rush.bat,skyline-server.bat,SKYLINE-START-HERE.md,SKYLINE-LICENSE.md,readme.txt package/skyline-rush/
+      - name: Verify packaged Windows server startup
+        shell: pwsh
+        run: |
+          $root = (Resolve-Path package/skyline-rush).Path
+          $home = Join-Path $env:RUNNER_TEMP 'skyline-smoke'
+          New-Item -ItemType Directory -Force $home | Out-Null
+          $exe = Join-Path $root 'bin/amd64/redeclipse_server_windows_amd64.exe'
+          $proc = Start-Process -FilePath $exe -WorkingDirectory $root -ArgumentList @("-h$home", '-gstartup.log', '-ss1', '-si127.0.0.1', '-sm', '-x"echo SKYLINE_WINDOWS_SMOKE"') -PassThru
+          try {
+            Start-Sleep -Seconds 6
+            $log = Join-Path $home 'startup.log'
+            if ($proc.HasExited) { throw "Server exited early: $($proc.ExitCode)" }
+            if (-not (Test-Path $log)) { throw 'Server did not write its startup log.' }
+            $text = Get-Content $log -Raw
+            if ($text -notmatch 'SKYLINE_WINDOWS_SMOKE' -or $text -notmatch 'Dedicated server started') { throw "Startup check failed: $text" }
+            Write-Host 'PASS: packaged Windows server loads and starts on loopback.'
+          } finally {
+            if (-not $proc.HasExited) { Stop-Process -Id $proc.Id -Force }
+          }
       - uses: actions/upload-artifact@v4
         with:
           name: skyline-rush-windows-playtest

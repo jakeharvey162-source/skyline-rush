@@ -15,7 +15,7 @@ An independent modification of Red Eclipse for Jake Harvey. This is a developmen
 
 Once this source is on your GitHub fork, open Actions → Skyline Rush Windows playtest → Run workflow. Download the skyline-rush-windows-playtest artifact from a successful run, extract the whole folder, and double-click skyline-rush.bat. Do not move the EXE out of the folder; config, assets and DLLs are required.
 
-The workflow has not yet been run on GitHub. A generated package must still be tested on a real Windows PC. Report any failing build step before treating it as ready.
+The Windows client and server have compiled successfully on GitHub. Use the latest successful run; the workflow also checks packaged server startup. The graphical game must still be tested on a real Windows PC. Report any failing build step before treating it as ready.
 
 ## Developer setup
 
