@@ -1,3 +1,4 @@
+// Skyline Rush branding modification. Original engine copyright retained in doc/license.txt.
 #define STR_MACRO_HELPER(s) #s
 #define STR_MACRO(s) STR_MACRO_HELPER(s)
 
@@ -21,14 +22,14 @@
 #define VERSION_HLP(x,y,z,r) #x#r#y#r#z
 #define VERSION_STR(x,y,z,r) VERSION_HLP(x,y,z,r)
 #define VERSION_STRING VERSION_STR(VERSION_MAJOR,VERSION_MINOR,VERSION_PATCH,.)
-#define VERSION_NAME "Red Eclipse"
-#define VERSION_FNAME "Red Eclipse"
-#define VERSION_UNAME "redeclipse"
-#define VERSION_VNAME "REDECLIPSE"
-#define VERSION_RELEASE "Big Bang Beta"
-#define VERSION_URL "www.redeclipse.net"
+#define VERSION_NAME "Skyline Rush"
+#define VERSION_FNAME "Skyline Rush — Playtest"
+#define VERSION_UNAME "skyline-rush"
+#define VERSION_VNAME "SKYLINERUSH"
+#define VERSION_RELEASE "Rooftop Playtest 0.1"
+#define VERSION_URL "github.com/jakeharvey162-source"
 #define VERSION_COPY "2009-2025"
-#define VERSION_DESC "An arena shooter for the modern era"
+#define VERSION_DESC "An independent rooftop arena prototype based on Red Eclipse"
 #define VERSION_STEAM_APPID 967460
 #define VERSION_STEAM_DEPOT 967461
 #define VERSION_DISCORD "506825464946360321"
@@ -43,6 +44,6 @@
 #define VERSION_REVISION ""
 #endif
 
-#define LAN_PORT 28799
-#define MASTER_PORT 28800
-#define SERVER_PORT 28801
+#define LAN_PORT 29799
+#define MASTER_PORT 29800
+#define SERVER_PORT 29801

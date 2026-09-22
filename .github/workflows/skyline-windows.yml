@@ -1,0 +1,37 @@
+name: Skyline Rush Windows playtest
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: make mingw-w64-x86_64-gcc
+      - name: Build client and private server
+        shell: msys2 {0}
+        run: make -C src -j2 client server CXXFLAGS=-O2
+      - name: Assemble playtest folder
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force package/skyline-rush/bin/amd64 | Out-Null
+          Copy-Item src/redeclipse_windows_amd64.exe,src/redeclipse_server_windows_amd64.exe package/skyline-rush/bin/amd64/
+          Copy-Item bin/amd64/*.dll package/skyline-rush/bin/amd64/
+          Copy-Item bin/LICENSE* package/skyline-rush/bin/
+          Copy-Item config,data,doc -Destination package/skyline-rush/ -Recurse
+          Get-ChildItem package/skyline-rush/data -Recurse -Force -Filter .git | Remove-Item -Force
+          Copy-Item skyline-rush.bat,skyline-server.bat,SKYLINE-START-HERE.md,SKYLINE-LICENSE.md package/skyline-rush/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: skyline-rush-windows-playtest
+          path: package/skyline-rush/
+          retention-days: 14
