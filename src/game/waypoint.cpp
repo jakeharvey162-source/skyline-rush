@@ -951,7 +951,7 @@ namespace ai
         delete f;
         conoutf(colourwhite, "Loaded %d waypoints from %s", numwp, wptname);
 
-        if(explodewaypoints&(m_edit(game::gamemode) ? 2 : 1))
+        if((explodewaypoints&(m_edit(game::gamemode) ? 2 : 1)) && (m_edit(game::gamemode) || strncmp(mapname, "maps/skyline/", 13)))
         {
             conoutf(colourwhite, "Exploding waypoints..");
             if(explodewaypointsaround) explodewaypointmesh(explodewaypointsaround, 4);

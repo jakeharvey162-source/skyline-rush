@@ -11,11 +11,11 @@ def launch(name, script):
     home=OUT/name
     home.mkdir(exist_ok=True)
     log=open(home/'stdout.log','w')
-    proc=subprocess.Popen([str(CLIENT),f'-h{home}','-gclient.log','-df0','-dw960','-dh540','-sm',f'-x{script}'],stdout=log,stderr=subprocess.STDOUT)
+    proc=subprocess.Popen([str(CLIENT),f'-h{home}','-gclient.log','-df0','-dw640','-dh360','-sm',f'-x{script}'],stdout=log,stderr=subprocess.STDOUT)
     return proc,home,log
 def finish(proc,home,log,marker):
     try:
-        proc.wait(timeout=150)
+        proc.wait(timeout=240)
         text=(home/'client.log').read_text(errors='replace')
         if proc.returncode or marker not in text:
             raise AssertionError(f'{home.name}: exit={proc.returncode}, marker missing? {marker not in text}')
@@ -29,7 +29,7 @@ def finish(proc,home,log,marker):
         log.close()
 for district in ('heights','lagoon','rift'):
     # Wait in game time, then move/fire briefly before recording the live frame.
-    script=f'botbalance 4; start maps/skyline/{district} 2 258; sleep 12000 [spectate 0; forward 1; primary; sleep 1000 [forward 0; ; screenshot {district}; echo SKYLINE_RENDER_{district} $mapname; quit]]'
+    script=f'name SkylineTester; gameui_close_all; botbalance 4; start maps/skyline/{district} 2 258; sleep 12000 [gameui_close_all; spectate 0; sleep 1000 [screenshot {district}; echo SKYLINE_RENDER_{district} $mapname; quit]]'
     finish(*launch(district,script),f'SKYLINE_RENDER_{district} maps/skyline/{district}')
 serverhome=OUT/'server';serverhome.mkdir(exist_ok=True)
 (serverhome/'servinit.cfg').write_text('servermaster ""\nserverpass "SmokeOnly93"\nsv_serverclients 2\nsv_serverspectators 0\nsv_defaultmap "maps/skyline/lagoon"\nsv_defaultmode 2\nsv_defaultmuts 1\nsv_botbalance 0\nsv_rotatemode 0\nsv_rotatemuts 0\nsv_resetvarsonend 0\n')

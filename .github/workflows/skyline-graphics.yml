@@ -2,7 +2,7 @@ name: Skyline Rush graphics and multiplayer smoke
 on:
   workflow_dispatch:
   push:
-    branches: [master]
+    branches: [main, master]
     paths-ignore: ["**.md"]
 permissions:
   contents: read
