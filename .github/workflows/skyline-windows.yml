@@ -35,13 +35,13 @@ jobs:
         shell: pwsh
         run: |
           $root = (Resolve-Path package/skyline-rush).Path
-          $home = Join-Path $env:RUNNER_TEMP 'skyline-smoke'
-          New-Item -ItemType Directory -Force $home | Out-Null
+          $smokeHome = Join-Path $env:RUNNER_TEMP 'skyline-smoke'
+          New-Item -ItemType Directory -Force $smokeHome | Out-Null
           $exe = Join-Path $root 'bin/amd64/redeclipse_server_windows_amd64.exe'
-          $proc = Start-Process -FilePath $exe -WorkingDirectory $root -ArgumentList @("-h$home", '-gstartup.log', '-ss1', '-si127.0.0.1', '-sm', '-x"echo SKYLINE_WINDOWS_SMOKE"') -PassThru
+          $proc = Start-Process -FilePath $exe -WorkingDirectory $root -ArgumentList @("-h$smokeHome", '-gstartup.log', '-ss1', '-si127.0.0.1', '-sm', '-x"echo SKYLINE_WINDOWS_SMOKE"') -PassThru
           try {
             Start-Sleep -Seconds 6
-            $log = Join-Path $home 'startup.log'
+            $log = Join-Path $smokeHome 'startup.log'
             if ($proc.HasExited) { throw "Server exited early: $($proc.ExitCode)" }
             if (-not (Test-Path $log)) { throw 'Server did not write its startup log.' }
             $text = Get-Content $log -Raw
