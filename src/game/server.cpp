@@ -8058,6 +8058,9 @@ namespace server
         }
     }
 
+    // Local console only: not registered as a remotely callable game command.
+    ICOMMAND(0, skyline_startroom, "", (), if(!(identflags&IDF_MAP)) changemap(sv_defaultmap, sv_defaultmode, sv_defaultmuts, -1, -1));
+
     bool serveroption(char *arg)
     {
         if(arg[0] == '-' && arg[1] == 's') switch(arg[2])

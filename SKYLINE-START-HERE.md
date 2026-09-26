@@ -1,3 +1,7 @@
+# Latest: 0.2 district and private-room expansion
+
+See [SKYLINE-PLAYTEST-02.md](SKYLINE-PLAYTEST-02.md) for current modes, hosting and limitations. The notes below describe the original 0.1 milestone.
+
 # Skyline Rush — rooftop playtest 0.1
 
 An independent modification of Red Eclipse for Jake Harvey. This is a development prototype, not a finished commercial game.
