@@ -26,7 +26,7 @@
 #define VERSION_FNAME "Skyline Rush — Playtest"
 #define VERSION_UNAME "skyline-rush"
 #define VERSION_VNAME "SKYLINERUSH"
-#define VERSION_RELEASE "Rooftop Playtest 0.1"
+#define VERSION_RELEASE "District Playtest 0.2"
 #define VERSION_URL "github.com/jakeharvey162-source"
 #define VERSION_COPY "2009-2025"
 #define VERSION_DESC "An independent rooftop arena prototype based on Red Eclipse"

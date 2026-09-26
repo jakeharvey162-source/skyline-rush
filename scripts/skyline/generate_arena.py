@@ -8,7 +8,7 @@ parser=argparse.ArgumentParser()
 parser.add_argument('--district', choices=['heights','lagoon','rift'], default='heights')
 district=parser.parse_args().district
 ROOT=Path(__file__).resolve().parents[2]
-OUT=ROOT/'data/skyline'
+OUT=ROOT/'maps/skyline'
 OUT.mkdir(parents=True,exist_ok=True)
 S=1024
 # Each box is x,y,z,width,depth,height,texture. All geometry is on an 8-unit grid.

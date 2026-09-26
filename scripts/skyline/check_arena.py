@@ -2,7 +2,7 @@
 from pathlib import Path
 import gzip,struct,json,collections,sys
 district=sys.argv[1] if len(sys.argv)>1 else "heights"
-root=Path(__file__).resolve().parents[2];d=root/'data/skyline'
+root=Path(__file__).resolve().parents[2];d=root/'maps/skyline'
 b=gzip.decompress((d/(district+'.mpz')).read_bytes());off=0
 def get(fmt):
  global off

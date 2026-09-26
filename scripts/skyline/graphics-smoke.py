@@ -19,6 +19,9 @@ def finish(proc,home,log,marker):
         text=(home/'client.log').read_text(errors='replace')
         if proc.returncode or marker not in text:
             raise AssertionError(f'{home.name}: exit={proc.returncode}, marker missing? {marker not in text}')
+        if home.name.startswith('player'):
+            line=next(line for line in text.splitlines() if marker in line)
+            if line.split()[-1] == '-1': raise AssertionError('Second player was not present')
         if not list(home.rglob('*.png')):
             raise AssertionError(f'{home.name}: no rendered screenshot')
     finally:
@@ -26,18 +29,18 @@ def finish(proc,home,log,marker):
         log.close()
 for district in ('heights','lagoon','rift'):
     # Wait in game time, then move/fire briefly before recording the live frame.
-    script=f'botbalance 4; start skyline/{district} 2 258; sleep 12000 [spectate 0; forward 1; attack 1; sleep 1000 [forward 0; attack 0; screenshot {district}; echo SKYLINE_RENDER_{district}; quit]]'
-    finish(*launch(district,script),f'SKYLINE_RENDER_{district}')
+    script=f'botbalance 4; start maps/skyline/{district} 2 258; sleep 12000 [spectate 0; forward 1; primary; sleep 1000 [forward 0; ; screenshot {district}; echo SKYLINE_RENDER_{district} $mapname; quit]]'
+    finish(*launch(district,script),f'SKYLINE_RENDER_{district} maps/skyline/{district}')
 serverhome=OUT/'server';serverhome.mkdir(exist_ok=True)
-(serverhome/'servinit.cfg').write_text('servermaster ""\nserverpass "SmokeOnly93"\nsv_serverclients 2\nsv_serverspectators 0\nsv_defaultmap "skyline/lagoon"\nsv_defaultmode 2\nsv_defaultmuts 1\nsv_botbalance 0\nsv_rotatemode 0\nsv_rotatemuts 0\nsv_resetvarsonend 0\n')
+(serverhome/'servinit.cfg').write_text('servermaster ""\nserverpass "SmokeOnly93"\nsv_serverclients 2\nsv_serverspectators 0\nsv_defaultmap "maps/skyline/lagoon"\nsv_defaultmode 2\nsv_defaultmuts 1\nsv_botbalance 0\nsv_rotatemode 0\nsv_rotatemuts 0\nsv_resetvarsonend 0\n')
 with open(serverhome/'stdout.log','w') as log:
     server=subprocess.Popen([str(SERVER),f'-h{serverhome}','-gserver.log','-ss1','-si127.0.0.1','-sm','-xskyline_startroom'],stdout=log,stderr=subprocess.STDOUT)
     clients=[]
     try:
         time.sleep(3)
         for i in (1,2):
-            script=f'name SmokePlayer{i}; connect 127.0.0.1 29801 SmokeOnly93; sleep 20000 [if (isconnected) [screenshot player{i}; echo SKYLINE_CONNECTED_{i}] [echo SKYLINE_CONNECTION_FAILED]; quit]'
-            clients.append((*launch(f'player{i}',script),f'SKYLINE_CONNECTED_{i}'))
+            script=f'name SmokePlayer{i}; connect 127.0.0.1 29801 SmokeOnly93; sleep 20000 [if (=s (connectedip) "127.0.0.1") [screenshot player{i}; echo SKYLINE_CONNECTED_{i} $mapname (getclientnum SmokePlayer{3-i})] [echo SKYLINE_CONNECTION_FAILED]; quit]'
+            clients.append((*launch(f'player{i}',script),f'SKYLINE_CONNECTED_{i} maps/skyline/lagoon'))
         for job in clients: finish(*job)
     finally:
         for proc,home,clog,marker in clients:

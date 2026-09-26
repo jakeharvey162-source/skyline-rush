@@ -28,7 +28,7 @@ sv_serverspectators 0
 sv_resetvarsonend 0
 sv_defaultmode 2
 sv_defaultmuts $mutators
-sv_defaultmap "skyline/$District"
+sv_defaultmap "maps/skyline/$District"
 sv_rotatemode 0
 sv_rotatemuts 0
 sv_rotatemaps 0

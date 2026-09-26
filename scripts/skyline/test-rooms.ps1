@@ -13,7 +13,7 @@ foreach ($mode in $expected.Keys) {
       Start-Sleep -Seconds 2
       if ($proc.HasExited) { throw "Server exited: $mode / $district" }
       $log = Get-Content (Join-Path $roomDir "test.log") -Raw
-      $marker = "SKYLINE_ROOM_TEST $($expected[$mode]) skyline/$district"
+      $marker = "SKYLINE_ROOM_TEST $($expected[$mode]) maps/skyline/$district"
       if (-not $log.Contains($marker)) { throw "Preset mismatch: $mode / $district" }
       if ($log -match "unknown command|cannot find|could not load|could not read") { throw "Server configuration error: $mode / $district -- $log" }
       Write-Host "PASS $mode / $district"
