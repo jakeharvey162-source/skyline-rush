@@ -20,7 +20,7 @@ $slots,$mutators,$enemies = $presets[$Mode]
 $roomDir = Join-Path $env:LOCALAPPDATA "SkylineRush/rooms/$RoomName"
 New-Item -ItemType Directory -Force $roomDir | Out-Null
 $config = @"
-serverdesc "Skyline Rush | $RoomName | $Mode"
+sv_serverdesc "Skyline Rush | $RoomName | $Mode"
 servermaster ""
 serverpass "$Password"
 sv_serverclients $slots

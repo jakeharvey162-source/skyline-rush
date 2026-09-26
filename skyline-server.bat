@@ -6,4 +6,4 @@ if not exist "bin\amd64\redeclipse_server_windows_amd64.exe" (
   pause
   exit /b 1
 )
-"bin\amd64\redeclipse_server_windows_amd64.exe" -hhome-server -ss1 -sm "-xserverdesc [Skyline Rush private playtest]" %*
+"bin\amd64\redeclipse_server_windows_amd64.exe" -hhome-server -ss1 -sm "-xsv_serverdesc [Skyline Rush private playtest]" %*
