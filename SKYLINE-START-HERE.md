@@ -13,7 +13,7 @@ An independent modification of Red Eclipse for Jake Harvey. This is a developmen
 
 ## Windows package
 
-Once this source is on your GitHub fork, open Actions → Skyline Rush Windows playtest → Run workflow. Download the skyline-rush-windows-playtest artifact from a successful run, extract the whole folder, and double-click skyline-rush.bat. Do not move the EXE out of the folder; config, assets and DLLs are required.
+Builds run automatically when game or workflow files change on master. Open Actions → Skyline Rush Windows playtest and select a successful run. You can also use Run workflow for a manual build. Download the skyline-rush-windows-playtest artifact from a successful run, extract the whole folder, and double-click skyline-rush.bat. Do not move the EXE out of the folder; config, assets and DLLs are required.
 
 The Windows client and server have compiled successfully on GitHub. Use the latest successful run; the workflow also checks packaged server startup. The graphical game must still be tested on a real Windows PC. Report any failing build step before treating it as ready.
 
@@ -48,4 +48,4 @@ The source ZIP excludes the multi-gigabyte upstream assets and contains no playa
 
 ## Verification completed here
 
-The original and modified Linux dedicated servers compile. The modified server starts on port 29801, reports Skyline Rush, reads its separate settings folder and shuts down cleanly on interruption. Structural map validation and connected waypoint/clearance checks pass. Graphical client compilation, Windows packaging, rendering and multiplayer playtesting remain unverified because the required system-package downloads were unavailable.
+The original and modified Linux dedicated servers compile. The modified server starts on port 29801, reports Skyline Rush, reads its separate settings folder and shuts down cleanly on interruption. Structural map validation and connected waypoint/clearance checks pass. The Windows client and server also compiled successfully in GitHub Actions, and a downloadable Windows package was produced. The updated workflow adds a packaged server startup check. Graphical rendering, movement, bot behavior and multiplayer playtesting remain unverified.
